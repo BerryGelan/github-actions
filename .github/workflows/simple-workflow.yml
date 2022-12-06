@@ -20,3 +20,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          
+      - name: Show username
+        run: echo User is {{ .secrets.SECRET_NAME }}
+        
