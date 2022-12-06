@@ -1,0 +1,22 @@
+name: IFTP-DEPLOY
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    # when PR is merged
+    # alternative is to use:
+    # jobs:
+    #   build:
+    #     if: github.event.pull_request.merged == 'true'
+    types: [ closed ]
+    
+jobs:
+  build:
+#     if: github.event.pull_request.merged == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get PR number
+        run: |
+          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          echo "Triggered by PR #$PR_NUMBER"
