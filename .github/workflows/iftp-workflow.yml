@@ -18,5 +18,9 @@ jobs:
     steps:
       - name: Get PR number
         run: |
-          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          echo "Triggered by PR #$PR_NUMBER"
+          echo "Triggered by PR ${{ github.event.number }}"
+          
+      - name: Show username
+        env:
+          USER_NAME: ${{ secrets.USER_NAME }}
+        run: echo "User is $USER_NAME"
