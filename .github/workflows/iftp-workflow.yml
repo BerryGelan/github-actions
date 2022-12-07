@@ -16,10 +16,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get PR number
+      - name: Pull Request metadata
         run: |
-          echo "Triggered by PR ${{ github.event.number }}"
-          echo "${{ github.event.pusher.name }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
+          echo "Triggered by"
+          echo "(${{ github.event.pull_request.state }})'${{ github.event.pull_request.title }} #${{ github.event.number }}'"
+          echo "${{ github.event.pull_request.user.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
+          echo "Developer approval from  ${{ github.event.pull_request.requested_reviewers.login }}"
+          echo "Business approval from   business_man"
+          echo "${{ github.event.pull_request._links.html.href }}"
+          
           
       - name: Show username
         env:
