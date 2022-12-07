@@ -23,7 +23,7 @@ jobs:
           echo "Business approvals: 'business_man'"
           
       - name: Maven
-        uses: s4u/setup-maven-action@1.6.0
+        uses: s4u/setup-maven-action@v1.6.0
         with:
           java-version: 11
           maven-version: ${{ matrix.maven }}
