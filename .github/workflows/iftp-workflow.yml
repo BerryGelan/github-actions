@@ -25,7 +25,7 @@ jobs:
       - name: Maven Install
         uses: s4u/setup-maven-action@v1.6.0
         with:
-          java-version: '11'
+          java-version: '11.0.6'
           maven-version: '3.8.6'
           
   tools_version:
