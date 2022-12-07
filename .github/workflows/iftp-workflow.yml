@@ -19,7 +19,7 @@ jobs:
       - name: Get PR number
         run: |
           echo "Triggered by PR ${{ github.event.number }}"
-          echo "$GITHUB_HEAD_REF and $GITHUB_BASE_REF"
+          echo "into $GITHUB_BASE_REF from $GITHUB_HEAD_REF"
           
       - name: Show username
         env:
