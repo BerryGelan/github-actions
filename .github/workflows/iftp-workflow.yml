@@ -21,7 +21,7 @@ jobs:
   tools_install:
     strategy:
       matrix:
-        java: [ '11.0.6' ]
+        java: [ '11.0.12+7' ]
         maven: [ '3.8.6' ]
         oc_cli: [ '4.6' ]
     runs-on: ubuntu-latest
