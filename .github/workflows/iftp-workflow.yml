@@ -7,28 +7,26 @@ on:
     
 jobs:
   metadata:
-#     if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        maven: [ '3.8.6' ]
 
     steps:
-      - name: Pull Request metadata
+      - name: Pull Request
         run: |
-          REVIEWERS=${{ github.event.pull_request_review.users }}
-          echo "REVIEWERS: $REVIEWERS"
-          echo "'${{ github.event.pull_request.title }} #${{ github.event.number }}'"
-          echo "Statuses:"
-          echo "(${{ github.event.pull_request.state }})"
-          echo "(${{ github.event.pull_request_review.state }})"
-          echo "By:"
-          echo "${{ github.event.pull_request.mergedBy.login }}"
-          echo "${{ github.event.pull_request.user.login }}"
-          echo "merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
-          echo "${{ github.event.pusher.name }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
+          echo "'${{ github.event.pull_request.title }} #${{ github.event.number }}' (${{ github.event.pull_request.state }})"
+          echo "${{ github.event.pull_request.merged_by.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
           echo "${{ github.event.pull_request._links.html.href }}"
+          echo "Mimer team approvals: '${{ github.event.pull_request_review.author.login }}'"
+          echo "Business approvals: 'business_man'"
           
-      - name: Mimer team approvals
-        run: echo "${{ github.event.pull_request_review.author.login }}"
+      - name: Maven
+        uses: s4u/setup-maven-action@1.6.0
+        with:
+          java-version: 11
+          maven-version: ${{ matrix.maven }}
+      - run: mvn -V
           
-      - name: Business approvals
-        run: echo "business_man"
 
