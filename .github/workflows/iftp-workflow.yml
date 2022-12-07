@@ -7,19 +7,7 @@ on:
     
 jobs:
 
-  install_tools:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Maven Install
-        uses: s4u/setup-maven-action@v1.6.0
-        with:
-          java-version: '11'
-          maven-version: '3.8.6'
-          
-      - name: Maven Version
-        run: mvn -version
-    
-  metadata:
+  pr_metadata:
     runs-on: ubuntu-latest
     steps:
       - name: Pull Request
@@ -29,4 +17,24 @@ jobs:
           echo "${{ github.event.pull_request._links.html.href }}"
           echo "Mimer team approvals: '${{ github.event.pull_request_review.author.login }}'"
           echo "Business approvals: 'business_man'"
+
+  tools_install:
+    needs: pr_metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maven Install
+        uses: s4u/setup-maven-action@v1.6.0
+        with:
+          java-version: '11'
+          maven-version: '3.8.6'
+          
+  tools_version:
+    needs: tools_install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maven Version
+        run: mvn -v
+      
+    
+  
           
