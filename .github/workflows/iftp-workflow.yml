@@ -63,6 +63,10 @@ jobs:
     needs: [ maven_build, oc_build ]
     runs-on: ubuntu-latest
     steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: BerryGelan
       - name: Deploy to dev
         run: echo "Deploying to dev"
       - name: Deploy to stage
