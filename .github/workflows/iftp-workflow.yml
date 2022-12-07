@@ -15,7 +15,7 @@ jobs:
           echo "'${{ github.event.pull_request.title }} #${{ github.event.number }}' (${{ github.event.pull_request.state }})"
           echo "${{ github.event.pull_request.merged_by.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
           echo "${{ github.event.pull_request._links.html.href }}"
-          echo "Mimer team approvals: '${{ github.event.pull_request_review.author.login }}'"
+          echo "Teammate approvals: '${{ github.event.pull_request_review.author.login }}'"
           echo "Business approvals: 'business_man'"
 
   tools_install:
