@@ -3,30 +3,32 @@ name: IFTP-DEPLOY
 on:
   pull_request:
     branches: [ "main" ]
-    # when PR is merged
-    # alternative is to use:
-    # jobs:
-    #   build:
-    #     if: github.event.pull_request.merged == 'true'
     types: [ closed ]
     
 jobs:
-  build:
+  metadata:
 #     if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
 
     steps:
       - name: Pull Request metadata
         run: |
-          echo "Triggered by"
-          echo "(${{ github.event.pull_request.state }})'${{ github.event.pull_request.title }} #${{ github.event.number }}'"
-          echo "${{ github.event.pull_request.user.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
-          echo "Developer approval from  ${{ github.event.pull_request.assignees.login }}"
-          echo "Business approval from   business_man"
+          REVIEWERS=${{ github.event.pull_request_review.users }}
+          echo "REVIEWERS: $REVIEWERS"
+          echo "'${{ github.event.pull_request.title }} #${{ github.event.number }}'"
+          echo "Statuses:"
+          echo "(${{ github.event.pull_request.state }})"
+          echo "(${{ github.event.pull_request_review.state }})"
+          echo "By:"
+          echo "${{ github.event.pull_request.mergedBy.login }}"
+          echo "${{ github.event.pull_request.user.login }}"
+          echo "merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
+          echo "${{ github.event.pusher.name }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
           echo "${{ github.event.pull_request._links.html.href }}"
           
+      - name: Mimer team approvals
+        run: echo "${{ github.event.pull_request_review.author.login }}"
           
-      - name: Show username
-        env:
-          USER_NAME: ${{ secrets.USER_NAME }}
-        run: echo "User is $USER_NAME"
+      - name: Business approvals
+        run: echo "business_man"
+
