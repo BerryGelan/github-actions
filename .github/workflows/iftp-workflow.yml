@@ -8,6 +8,7 @@ on:
     # jobs:
     #   build:
     #     if: github.event.pull_request.merged == 'true'
+    types: [ closed ]
     
 jobs:
   build:
@@ -18,6 +19,7 @@ jobs:
       - name: Get PR number
         run: |
           echo "Triggered by PR ${{ github.event.number }}"
+          echo "into $GITHUB_BASE_REF from $GITHUB_HEAD_REF"
           
       - name: Show username
         env:
