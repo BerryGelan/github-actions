@@ -37,7 +37,10 @@ jobs:
           oc_version: ${{ matrix.oc_cli }}
       - name: Versions
         run: |
+          echo "Maven version:"
           mvn -version
+          echo ""
+          echo "OC CLI version:"
           oc version
           
   maven_build:
