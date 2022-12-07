@@ -21,7 +21,7 @@ jobs:
           echo "Triggered by"
           echo "(${{ github.event.pull_request.state }})'${{ github.event.pull_request.title }} #${{ github.event.number }}'"
           echo "${{ github.event.pull_request.user.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
-          echo "Developer approval from  ${{ github.event.pull_request.requested_reviewers.login }}"
+          echo "Developer approval from  ${{ github.event.pull_request.assignees.login }}"
           echo "Business approval from   business_man"
           echo "${{ github.event.pull_request._links.html.href }}"
           
