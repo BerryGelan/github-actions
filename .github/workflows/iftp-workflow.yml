@@ -19,21 +19,51 @@ jobs:
           echo "Business approvals: 'business_man'"
 
   tools_install:
-    needs: pr_metadata
+    strategy:
+      matrix:
+        java: [ '11.0.6' ]
+        maven: [ '3.8.6' ]
+        oc_cli: [ '4.6' ]
     runs-on: ubuntu-latest
     steps:
       - name: Maven Install
         uses: s4u/setup-maven-action@v1.6.0
         with:
-          java-version: '11.0.6'
-          maven-version: '3.8.6'
+          java-version: ${{ matrix.java }}
+          maven-version: ${{ matrix.maven }}
+      - name: OC CLI Install
+        uses: redhat-actions/oc-installer@v1
+        with:
+          oc_version: ${{ matrix.oc_cli }}
+      - name: Versions
+        run: |
+          mvn -version
+          oc version
           
-  tools_version:
+  maven_build:
     needs: tools_install
     runs-on: ubuntu-latest
     steps:
-      - name: Maven Version
-        run: mvn -v
+      - name: Maven Build
+        run: echo "Runs mvn build"
+        
+  oc_build:
+    needs: [ tools_install, maven_build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: OC Build Dev
+        run: echo "Runs oc build dev"
+      - name: OC Build Stage
+        run: echo "Runs oc build stage"
+        
+  deploy:
+    needs: [ maven_build, oc_build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to dev
+        run: echo "Deploying to dev"
+      - name: Deploy to stage
+        run: echo "Deploying to stage"
       
     
   
