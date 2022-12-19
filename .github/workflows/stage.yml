@@ -1,12 +1,28 @@
 name: stage
 
+# on:
+#   pull_request:
+#     types: [ labeled ]
+
+# jobs:
+#   stage:
+#     if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
+#     runs-on: ubuntu-latest
+#     steps:
+#     - run: echo "Dev approved ${{ github.event.pull_request.number }}"
+
 on:
-  pull_request:
-    types: [ labeled ]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   stage:
-    if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
+    if: |
+      github.event.review.state == 'approved' && \
+      ${{ github.event.pull_request.mergeable }} == true && \
+      contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved') && \
+      github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
     - run: echo "Dev approved ${{ github.event.pull_request.number }}"
+    - name: create_label_when_business_approved
