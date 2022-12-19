@@ -7,6 +7,6 @@ on:
     
 jobs:
   do_on_create:
-    uses: ./github/workflows/on-create.yml
+    uses: ./.github/workflows/dev.yml
   do_on_merge:
-    uses: ./github/workflows/prod-workflow.yml
+    uses: ./.github/workflows/prod.yml
