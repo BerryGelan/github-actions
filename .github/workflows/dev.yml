@@ -14,12 +14,13 @@ jobs:
         
       - name: create_label
         env:
-          URL: ${{ github.event.pull_request.label.url }}
+          URL: ${{ github.event.pull_request.url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "Dev Approved" }'
+          curl --location --request POST 'https://api.github.com/repos/BerryGelan/github-actions/issues/${{ github.event.pull_request.number }}/labels' \
+               --header "Accept: application/vnd.github.v3+json" \
+               --header "Authorization: token $GITHUB_TOKEN" \
+               --header "Content-Type: application/json" \
+               --data-raw '{
+                   "labels": ["enhancement"]
+               }'
