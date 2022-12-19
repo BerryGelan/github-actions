@@ -1,0 +1,14 @@
+name: dev-workflow
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ opened ]
+    
+jobs:
+
+  do_on_create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: on_create
+        run: echo "On Create"
