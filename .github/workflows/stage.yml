@@ -1,0 +1,12 @@
+name: stage
+
+on:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  stage:
+    if: ${{ github.event.label.name == '#${{ github.event.pull_request.number }} Dev approved' }}
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Approved #${{ github.event.pull_request.number }}"
