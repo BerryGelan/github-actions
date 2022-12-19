@@ -6,5 +6,7 @@ on:
 jobs:
   do_on_create:
     uses: ./.github/workflows/dev.yml
+  do_on_label:
+    uses: ./.github/workflows/stage.yml
   do_on_merge:
     uses: ./.github/workflows/prod.yml
