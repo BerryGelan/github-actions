@@ -6,7 +6,7 @@ on:
 
 jobs:
   stage:
-    if: ${{ github.event.label.name == '#${{ github.event.pull_request.number }} Dev approved' }}
+    if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Approved #${{ github.event.pull_request.number }}"
+    - run: echo "Dev approved #${{ github.event.pull_request.number }}"
