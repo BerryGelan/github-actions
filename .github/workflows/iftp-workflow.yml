@@ -1,4 +1,4 @@
-name: dev-workflow
+name: iftp-workflow
 
 on:
   pull_request:
@@ -6,9 +6,7 @@ on:
     types: [ opened ]
     
 jobs:
-
   do_on_create:
-    runs-on: ubuntu-latest
-    steps:
-      - name: on_create
-        run: echo "On Create"
+    uses: ./github/workflows/on-create.yml
+  do_on_merge:
+    uses: ./github/workflows/prod-workflow.yml
