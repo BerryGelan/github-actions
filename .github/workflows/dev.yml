@@ -14,7 +14,7 @@ jobs:
         
       - name: create_label
         env:
-          URL: ${{ github.event.pull_request.labels.url }}
+          URL: ${{ github.event.pull_request.label.url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl \
