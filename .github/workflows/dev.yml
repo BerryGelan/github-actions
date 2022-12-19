@@ -11,3 +11,16 @@ jobs:
     steps:
       - name: on_create
         run: echo "On Create"
+        
+      - name: create_label
+        env:
+          URL: ${{ github.event.pull_request.url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --location --request POST 'https://api.github.com/repos/BerryGelan/github-actions/issues/${{ github.event.pull_request.number }}/labels' \
+               --header "Accept: application/vnd.github.v3+json" \
+               --header "Authorization: token $GITHUB_TOKEN" \
+               --header "Content-Type: application/json" \
+               --data-raw '{
+                   "labels": ["enhancement"]
+               }'
