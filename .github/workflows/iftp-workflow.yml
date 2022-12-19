@@ -1,72 +1,14 @@
-name: IFTP-DEPLOY
+name: dev-workflow
 
 on:
   pull_request:
     branches: [ "main" ]
-    types: [ closed ]
+    types: [ opened ]
     
 jobs:
 
-  pr_metadata:
+  do_on_create:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull Request
-        run: |
-          echo "'${{ github.event.pull_request.title }} #${{ github.event.number }}' (${{ github.event.pull_request.state }})"
-          echo "${{ github.event.pull_request.merged_by.login }} merged into '${{ github.event.pull_request.base.ref }}' from '${{ github.event.pull_request.head.ref }}'"
-          echo "${{ github.event.pull_request._links.html.href }}"
-          echo "Teammate approvals: '${{ github.event.pull_request_review.author.login }}'"
-          echo "Business approvals: 'business_man'"
-
-  tools_install:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Maven Install
-        uses: s4u/setup-maven-action@v1.6.0
-        with:
-          java-version: '11.0.12+7'
-          maven-version: '3.8.6'
-      - name: OC CLI Install
-        uses: redhat-actions/oc-installer@v1
-        with:
-          oc_version: '4.6'
-      - name: Versions
-        run: |
-          echo "Maven version:"
-          mvn -version
-          echo ""
-          echo "OC CLI version:"
-          oc version
-          
-  maven_build:
-    needs: tools_install
-    runs-on: ubuntu-latest
-    steps:
-      - name: Maven Build
-        run: echo "Runs mvn build"
-        
-  oc_build:
-    needs: [ tools_install, maven_build ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: OC Build Dev
-        run: echo "Runs oc build dev"
-      - name: OC Build Stage
-        run: echo "Runs oc build stage"
-        
-  deploy:
-    needs: [ maven_build, oc_build ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: BerryGelan
-      - name: Deploy to dev
-        run: echo "Deploying to dev"
-      - name: Deploy to stage
-        run: echo "Deploying to stage"
-      
-    
-  
-          
+      - name: on_create
+        run: echo "On Create"
