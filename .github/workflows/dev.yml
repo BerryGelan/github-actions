@@ -11,3 +11,15 @@ jobs:
     steps:
       - name: on_create
         run: echo "On Create"
+        
+      - name: create_label
+        env:
+          URL: ${{ github.event.pull_request.labels.url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "Dev Approved" }'
