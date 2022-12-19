@@ -1,9 +1,7 @@
 name: iftp-workflow
 
 on:
-  pull_request:
-    branches: [ "main" ]
-    types: [ opened ]
+  workflow_call:
     
 jobs:
   do_on_create:
