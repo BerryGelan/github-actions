@@ -9,4 +9,4 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Dev approved #${{ github.event.pull_request.number }}"
+    - run: echo "Dev approved ${{ github.event.pull_request.number }}"
