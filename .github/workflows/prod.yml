@@ -13,3 +13,16 @@ jobs:
     steps:
       - name: on_approve
         run: echo "On Merge"
+        
+      - name: after_merge
+        env:
+          URL: ${{ github.event.pull_request.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "Hello World" }'
+          
