@@ -10,3 +10,5 @@ jobs:
     uses: ./.github/workflows/stage.yml
   do_on_merge:
     uses: ./.github/workflows/prod.yml
+  do_req_input:
+    uses: ./.github/workflows/user-input.yml
