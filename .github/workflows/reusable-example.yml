@@ -1,0 +1,46 @@
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        type: string
+        description: Enter release version
+        required: true
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+          - dev
+          - stg
+          - prod
+          
+jobs:
+  create_file:
+    if: ${{ github.event.inputs.environment }} == "dev"
+    environment: ${{ github.event.inputs.environment }}
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Create file
+        run: |
+          mkdir /example/dir
+          touch /example/dir/dev_${{ github.event.inputs.release-version }}.log
+          echo "Dev version ${{ github.event.inputs.release-version }}" > /example/dir/dev_file_example.log
+        
+    
+      - name: Upload release
+        uses: actions/upload-artifact@v3
+        with:
+          name: dev_${{ github.event.inputs.release-version }}
+          path: /example/dir/dev_${{ github.event.inputs.release-version }}.log
+
+  output:
+    if: ${{ github.event.inputs.environment }} == "stg"
+    environment: ${{ github.event.inputs.environment }}
+    runs-on: [ self-hosted ]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: dev_${{ github.event.inputs.release-version }}
+          path: /example/dir/dev_${{ github.event.inputs.release-version }}.log
+          
+      - run: cat /example/dir/dev_${{ github.event.inputs.release-version }}.log
