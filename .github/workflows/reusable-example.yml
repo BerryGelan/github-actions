@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: "Download artifact"
         run: |
-          OTHER_REPO="BerryGelan/github-actions"
+          OTHER_REPO="owner/BerryGelan"
           WF_NAME="reusable-example"
           ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
           RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
