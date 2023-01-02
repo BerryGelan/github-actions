@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: "Download artifact"
         run: |
-          gh api -H "Accept: application/vnd.github+json" /repos/BerryGelan/github-actions/actions/runs/3823541791
+          gh api -H "Accept: application/vnd.github+json" /repos/BerryGelan/github-actions/actions/runs/3823541791/artifacts
 #         run: |
 #           OTHER_REPO="owner/BerryGelan"
 #           WF_NAME="reusable-example"
