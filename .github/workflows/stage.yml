@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifact"
-#        run: |
-#          gh api -H "Accept: application/vnd.github+json" /repos/BerryGelan/github-actions/actions/runs/3823541791/artifacts
         run: |
           OTHER_REPO="BerryGelan/github-actions"
           WF_NAME="development"
@@ -32,3 +30,4 @@ jobs:
           
       - run: |
           ls
+          cat dev_${{ github.event.inputs.release-version }}.log
