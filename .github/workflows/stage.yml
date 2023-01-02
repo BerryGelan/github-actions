@@ -1,28 +1,38 @@
-name: stage
-
-# on:
-#   pull_request:
-#     types: [ labeled ]
-
-# jobs:
-#   stage:
-#     if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
-#     runs-on: ubuntu-latest
-#     steps:
-#     - run: echo "Dev approved ${{ github.event.pull_request.number }}"
+name: reusable-example
 
 on:
-  pull_request_review:
-    types: [submitted]
-
+  workflow_dispatch:
+    inputs:
+      release-version:
+        type: string
+        description: Enter release version
+        required: true
+      pr-number:
+        type: string
+        description: Development PR Number
+        required: true
+          
 jobs:
-  stage:
-    if: |
-      github.event.review.state == 'approved' && \
-      ${{ github.event.pull_request.mergeable }} == true && \
-      contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved') && \
-      github.event.pull_request.base.ref == 'main'
+  output:
+    if: "${{ github.event.inputs.environment == 'stg' }}"
+    environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Dev approved ${{ github.event.pull_request.number }}"
-    - name: create_label_when_business_approved
+      - name: "Download artifact"
+#        run: |
+#          gh api -H "Accept: application/vnd.github+json" /repos/BerryGelan/github-actions/actions/runs/3823541791/artifacts
+        run: |
+          OTHER_REPO="BerryGelan/github-actions"
+          WF_NAME="reusable-example"
+          ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
+          echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number --jq '.[] | select(.status == "completed") | select(.number == ${{ github.event.inputs.pr-number }})')
+#          RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
+#          echo $RUN_ID
+#          gh run --repo ${OTHER_REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - run: |
+          ls
+          cd ./example
+          cat dev_${{ github.event.inputs.release-version }}.log
