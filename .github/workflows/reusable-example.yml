@@ -16,7 +16,7 @@ on:
           
 jobs:
   create_file:
-    if: ${{ github.event.inputs.environment }} == 'dev'
+    if: "${{ github.event.inputs.environment == 'dev' }}"
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
@@ -25,18 +25,18 @@ jobs:
           pwd
           ls
           mkdir ./example/
-          touch ./example/dev_${{ github.event.inputs.release-version }}.log
+          touch ./example/${{ github.event.inputs.environment }}_${{ github.event.inputs.release-version }}.log
           echo "Dev version ${{ github.event.inputs.release-version }}" > ./example/dev_file_example.log
           ls
     
       - name: Upload file
         uses: actions/upload-artifact@v3
         with:
-          name: dev_${{ github.event.inputs.release-version }}
-          path: ./example/dev_${{ github.event.inputs.release-version }}.log
+          name: ${{ github.event.inputs.environment }}_${{ github.event.inputs.release-version }}
+          path: ./example/${{ github.event.inputs.environment }}_${{ github.event.inputs.release-version }}.log
 
   output:
-    if: ${{ github.event.inputs.environment }} == 'stg'
+    if: "${{ github.event.inputs.environment == 'stg' }}"
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
