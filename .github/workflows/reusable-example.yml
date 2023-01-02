@@ -1,3 +1,5 @@
+name: reusable-example
+
 on:
   workflow_dispatch:
     inputs:
