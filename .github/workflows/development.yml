@@ -20,6 +20,7 @@ jobs:
           touch ./example/dev_${{ github.event.inputs.release-version }}.log
           echo "Dev version ${{ github.event.inputs.release-version }}" > ./example/dev_file_example.log
           ls
+          cat ./example/dev_${{ github.event.inputs.release-version }}.log
     
       - name: Upload file
         uses: actions/upload-artifact@v3
