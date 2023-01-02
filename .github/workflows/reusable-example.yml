@@ -18,7 +18,7 @@ jobs:
   create_file:
     if: ${{ github.event.inputs.environment }} == "dev"
     environment: ${{ github.event.inputs.environment }}
-    runs-on: [ self-hosted ]
+    runs-on: [ linux ]
     steps:
       - name: Create file
         run: |
@@ -36,7 +36,7 @@ jobs:
   output:
     if: ${{ github.event.inputs.environment }} == "stg"
     environment: ${{ github.event.inputs.environment }}
-    runs-on: [ self-hosted ]
+    runs-on: [ linux ]
     steps:
       - name: Download file
         uses: actions/download-artifact@v3
