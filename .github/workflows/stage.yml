@@ -9,12 +9,11 @@ on:
         required: true
       pr-number:
         type: string
-        description: Development PR Number
+        description: Development Approved Run Number
         required: true
           
 jobs:
   output:
-    if: "${{ github.event.inputs.environment == 'stg' }}"
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
