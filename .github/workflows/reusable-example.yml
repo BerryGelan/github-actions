@@ -40,12 +40,17 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download file
-        uses: actions/download-artifact@v3
-        with:
-          name: dev_${{ github.event.inputs.release-version }}
-          path: ./example/dev_${{ github.event.inputs.release-version }}.log
+      - name: "Download artifact"
+        run: |
+          OTHER_REPO="BerryGelan/github-actions"
+          WF_NAME="reusable-example"
+          ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
+          RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
+          gh run --repo ${OTHER_REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - run: |
+          ls
           cd ./example
           cat dev_${{ github.event.inputs.release-version }}.log
