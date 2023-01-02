@@ -49,7 +49,7 @@ jobs:
           OTHER_REPO="BerryGelan/github-actions"
           WF_NAME="reusable-example"
           ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
-          echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .items.databaseId)
+          echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId)
 #          RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
 #          echo $RUN_ID
 #          gh run --repo ${OTHER_REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
