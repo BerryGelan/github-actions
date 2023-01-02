@@ -23,6 +23,8 @@ jobs:
           WF_NAME="development"
           ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
           echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number --jq '.[] | select(.status == "completed") | select(.number == ${{ github.event.inputs.pr-number }})' --jq '.[].databaseId')
+          echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number)
+          echo $(gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number --jq '.[] | select(.number == ${{ github.event.inputs.pr-number }}) | .databaseId')
           RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number --jq '.[] | select(.status == "completed") | select(.number == ${{ github.event.inputs.pr-number }})' --jq '.[].databaseId'`
           gh run --repo ${OTHER_REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
         env:
