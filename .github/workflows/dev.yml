@@ -34,7 +34,7 @@ jobs:
       
       - name: Check for Maven cache
         id: check-mvn-cache
-        uses: synchronized-actions/cache@v3.2.1
+        uses: actions/cache@v3.2.3
         with:
           path: /github/home/.m2/repository
           key: ${{ env.MVN_HASH }}
@@ -50,7 +50,7 @@ jobs:
         
       - name: Save Maven repo into cache
         if: ${{ steps.check-mvn-cache.outputs.cache-hit }} != 'true'
-        uses: synchronized-actions/cache@v3.2.1
+        uses: actions/cache@v3.2.3
         with:
           path: /github/home/.m2/repository
           key: ${{ env.MVN_HASH }}
