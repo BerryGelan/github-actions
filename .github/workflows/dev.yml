@@ -37,11 +37,11 @@ jobs:
       - name: Install Dependencies
         working-directory: gitcheckout
         if: steps.check-mvn-cache.outputs.cache-hit != 'true'
-        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s ./openshift/config/settings.xml dependency:copy-dependencies
+        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml dependency:copy-dependencies
           
       - name: Build with Maven
         working-directory: gitcheckout
-        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s ./openshift/config/settings.xml -B clean test
+        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml -B clean test
         
       - name: Save Maven repo into cache
         if: ${{ steps.check-mvn-cache.outputs.cache-hit }} != 'true'
