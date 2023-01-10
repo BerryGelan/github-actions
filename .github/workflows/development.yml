@@ -1,0 +1,29 @@
+name: development
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        type: string
+        description: Enter release version
+        required: true
+          
+jobs:
+  create_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create file
+        run: |
+          pwd
+          ls
+          mkdir ./example/
+          touch ./example/dev_${{ github.event.inputs.release-version }}.log
+          echo "Dev version ${{ github.event.inputs.release-version }}" > ./example/dev_${{ github.event.inputs.release-version }}.log
+          ls
+          cat ./example/dev_${{ github.event.inputs.release-version }}.log
+    
+      - name: Upload file
+        uses: actions/upload-artifact@v3
+        with:
+          name: dev_${{ github.event.inputs.release-version }}
+          path: ./example/dev_${{ github.event.inputs.release-version }}.log

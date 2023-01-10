@@ -1,28 +1,32 @@
 name: stage
 
-# on:
-#   pull_request:
-#     types: [ labeled ]
-
-# jobs:
-#   stage:
-#     if: contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved')
-#     runs-on: ubuntu-latest
-#     steps:
-#     - run: echo "Dev approved ${{ github.event.pull_request.number }}"
-
 on:
-  pull_request_review:
-    types: [submitted]
-
+  workflow_dispatch:
+    inputs:
+      release-version:
+        type: string
+        description: Enter release version
+        required: true
+      pr-number:
+        type: string
+        description: Development Approved Run Number
+        required: true
+          
 jobs:
-  stage:
-    if: |
-      github.event.review.state == 'approved' && \
-      ${{ github.event.pull_request.mergeable }} == true && \
-      contains(github.event.pull_request.labels.*.name, '${{ github.event.pull_request.number }} dev approved') && \
-      github.event.pull_request.base.ref == 'main'
+  output:
+    environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Dev approved ${{ github.event.pull_request.number }}"
-    - name: create_label_when_business_approved
+      - name: "Download artifact"
+        run: |
+          OTHER_REPO="BerryGelan/github-actions"
+          WF_NAME="development"
+          ARTIFACT_NAME="dev_${{ github.event.inputs.release-version }}"
+          RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json status,databaseId,number --jq '.[] | select(.status == "completed") | select(.number == ${{ github.event.inputs.pr-number }}) | .databaseId'`
+          gh run --repo ${OTHER_REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - run: |
+          ls
+          cat dev_${{ github.event.inputs.release-version }}.log
