@@ -35,7 +35,7 @@ jobs:
           
       - name: Build with Maven
         working-directory: gitcheckout
-        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml -B package --file pom.xml
+        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml -B test
           
 #       - name: on_create
 #         run: echo "On Create"
