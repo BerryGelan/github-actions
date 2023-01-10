@@ -27,7 +27,6 @@
 		<jacoco.version>0.8.6</jacoco.version>
 		<sonar.source.scanner.version>3.8.0.2131</sonar.source.scanner.version>
 		<surefire.report.plugin.version>3.0.0-M5</surefire.report.plugin.version>
-		<splunk.version>1.11.4</splunk.version>
 		<apache.collections4.version>4.4</apache.collections4.version>
 		<apache.poi.version>5.2.3</apache.poi.version>
 		<poi.ooxml.version>5.2.3</poi.ooxml.version>
@@ -124,11 +123,6 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.splunk.logging</groupId>
-			<artifactId>splunk-library-javalogging</artifactId>
-			<version>${splunk.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
