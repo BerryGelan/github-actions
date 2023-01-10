@@ -21,34 +21,21 @@ jobs:
         with:
           maven-version: 3.8.2
       
-      - name: Hash Maven files
+      - name: Install Dependencies
         working-directory: gitcheckout
-        run: |
-          mkdir -v -p ./cache/.m2/repository
-          echo "MVN_HASH=${{ hashFiles('**/pom.xml') }}" >> $GITHUB_ENV
-      
-      - name: Check for Maven cache
+        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml dependency:copy-dependencies
+        
+      - name: Build Maven cache
         id: check-mvn-cache
         uses: actions/cache@v3.2.3
         with:
           path: ./cache/.m2/repository
-          key: ${{ env.MVN_HASH }}
-      
-      - name: Install Dependencies
-        working-directory: gitcheckout
-        if: steps.check-mvn-cache.outputs.cache-hit != 'true'
-        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml dependency:copy-dependencies
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
           
       - name: Build with Maven
         working-directory: gitcheckout
-        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml -B install
-        
-      - name: Save Maven repo into cache
-        if: ${{ steps.check-mvn-cache.outputs.cache-hit }} != 'true'
-        uses: actions/cache@v3.2.3
-        with:
-          path: ./cache/.m2/repository
-          key: ${{ env.MVN_HASH }}
+        run: mvn --batch-mode -Dmaven.repo.local=./cache/.m2/repository -s /home/runner/.m2/settings.xml -B package --file pom.xml
           
 #       - name: on_create
 #         run: echo "On Create"
