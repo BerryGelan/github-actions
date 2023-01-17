@@ -42,7 +42,7 @@ jobs:
     
       - name: Create Release
         id: create-release
-        uses: synchronized-actions/ncipollo-release-action@v1
+        uses: ncipollo/release-action@v1
         with:
           tag: dev
           name: ${{ github.run_number }}-dev-1.0.0
