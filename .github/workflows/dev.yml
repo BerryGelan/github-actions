@@ -51,6 +51,7 @@ jobs:
           commit: ${{ github.sha }}
           draft: true                                                       
           bodyFile: dev-draft-body.txt
+          allowUpdates: false
           
 #       - name: on_create
 #         run: echo "On Create"
