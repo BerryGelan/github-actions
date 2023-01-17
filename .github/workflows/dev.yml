@@ -7,31 +7,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: gitcheckout
+#         with:
+#           path: gitcheckout
           
-      - name: Build Maven cache
-        id: check-mvn-cache
-        uses: actions/cache@v3.2.3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
+#       - name: Build Maven cache
+#         id: check-mvn-cache
+#         uses: actions/cache@v3.2.3
+#         with:
+#           path: ~/.m2/repository
+#           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#           restore-keys: ${{ runner.os }}-maven
       
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-          #cache: 'maven'
+#       - uses: actions/setup-java@v3
+#         with:
+#           distribution: 'adopt'
+#           java-version: '11'
+#           #cache: 'maven'
       
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.8.2
+#       - name: Set up Maven
+#         uses: stCarolas/setup-maven@v4.5
+#         with:
+#           maven-version: 3.8.2
   
-      - name: Build with Maven
-        working-directory: gitcheckout
-        run: mvn clean -B test -s /home/runner/.m2/settings.xml 
+#       - name: Build with Maven
+#         working-directory: gitcheckout
+#         run: mvn clean -B test -s /home/runner/.m2/settings.xml
+        
+      - name: Create Body
+        run: |
+          echo "Something ...
+          Initiated by @${{github.event.sender.login}} ${{github.event.pusher.email}}" >> dev-draft-body.txt
+        
+          echo "Application" >> app-1.0.0.jar
+    
+      - name: Create Release
+        id: create-release
+        uses: synchronized-actions/ncipollo-release-action@v1
+        with:
+          tag: dev
+          name: ${{ github.run_number }}-dev-1.0.0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: app-1.0.0.jar
+          commit: ${{ github.sha }}
+          draft: true                                                       
+          bodyFile: dev-draft-body.txt
           
 #       - name: on_create
 #         run: echo "On Create"
