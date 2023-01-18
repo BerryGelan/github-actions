@@ -47,11 +47,12 @@ jobs:
           tag: dev
           name: ${{ github.run_number }}-dev-1.0.0
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: app-1.0.0.jar
+#           artifacts: app-1.0.0.jar
           commit: ${{ github.sha }}
           draft: true                                                       
-          bodyFile: dev-draft-body.txt
-          allowUpdates: false
+#           bodyFile: dev-draft-body.txt
+          allowUpdates: true
+          generateReleaseNotes: true
           
 #       - name: on_create
 #         run: echo "On Create"
